@@ -1,0 +1,27 @@
+appId: com.soroush.spotifydl
+productName: SpotifyDL
+copyright: Copyright © 2026 Soroush Eghdami
+directories:
+  output: release
+files:
+  - out/**/*
+  - package.json
+extraResources:
+  - from: backend/dist/spotdl-backend
+    to: backend
+    filter:
+      - '**/*'
+  - from: build/icon.ico
+    to: icon.ico
+win:
+  icon: build/icon.ico
+  target:
+    - nsis
+    - portable
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: SpotifyDL
+  artifactName: SpotifyDL-Setup-${version}.exe
+portable:
+  artifactName: SpotifyDL-portable-${version}.exe
