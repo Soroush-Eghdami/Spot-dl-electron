@@ -31,7 +31,7 @@ function createWindow(): void {
     minHeight: 660,
     show: false,
     autoHideMenuBar: true,
-    backgroundColor: '#F8F6EE',
+    backgroundColor: '#2E3A2F',
     title: 'SpotifyDL',
     icon: iconPath(),
     webPreferences: {

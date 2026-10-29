@@ -218,7 +218,7 @@ export class BackendBridge {
     try {
       await this.request('cancel', {}, ['result'], 15000)
     } catch {
-      // Cancelling is best-effort; the worker also notices the flag itself.
+      // Best effort: the worker checks its own cancel flag anyway.
     }
   }
 
@@ -231,13 +231,13 @@ export class BackendBridge {
       try {
         child.stdin.write(`${JSON.stringify({ id: 'shutdown', cmd: 'shutdown' })}\n`)
       } catch {
-        // ignore
+        // Child already gone.
       }
       setTimeout(() => {
         try {
           if (!child.killed) child.kill()
         } catch {
-          // ignore
+          // Nothing left to kill.
         }
       }, 800)
     }

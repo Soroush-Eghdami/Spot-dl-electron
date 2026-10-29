@@ -36,8 +36,8 @@ function ToggleRow({ label, hint, checked, disabled, onChange }: ToggleRowProps)
   return (
     <div className="flex items-start gap-3">
       <div className="min-w-0 flex-1">
-        <p className="text-[12px] font-semibold text-forest">{label}</p>
-        <p className="mt-0.5 text-[10.5px] leading-snug text-moss/80">{hint}</p>
+        <p className="text-[12px] font-semibold text-cream">{label}</p>
+        <p className="mt-0.5 text-[10.5px] leading-snug text-sand/60">{hint}</p>
       </div>
       <Toggle checked={checked} onChange={onChange} disabled={disabled} label={label} />
     </div>
@@ -57,12 +57,12 @@ export function SettingsPanel({
   return (
     <section className="card animate-rise p-5" style={{ animationDelay: '90ms' }}>
       <div className="flex items-center gap-2.5">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-sand/45 text-forest/70">
+        <div className="grid h-9 w-9 place-items-center rounded-xl bg-cream/8 text-sand/70">
           <Sparkles size={16} strokeWidth={2} />
         </div>
         <div>
           <h2 className="text-[14px] font-extrabold tracking-tight">Download settings</h2>
-          <p className="text-[11px] text-moss/80">Fine-tune the output to your taste.</p>
+          <p className="text-[11px] text-sand/60">Fine-tune the output to your taste.</p>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export function SettingsPanel({
         <div>
           <div className="flex items-center justify-between">
             <span className="label">Format</span>
-            <span className="text-[9.5px] font-semibold uppercase tracking-wider text-moss/60">
+            <span className="text-[9.5px] font-semibold uppercase tracking-wider text-sand/45">
               {lossless ? 'Lossless' : 'Compressed'}
             </span>
           </div>
@@ -83,8 +83,8 @@ export function SettingsPanel({
                 onClick={() => onChange({ format: format.value })}
                 className={`rounded-lg border px-2 py-1.5 text-[11px] font-bold transition ${
                   settings.format === format.value
-                    ? 'border-forest bg-forest text-cream shadow-sm'
-                    : 'border-sand/80 bg-white/55 text-forest/70 hover:border-moss/60 hover:text-forest'
+                    ? 'border-cream bg-cream text-forest shadow-sm'
+                    : 'border-sand/15 bg-cream/5 text-sand/70 hover:border-moss/60 hover:text-cream'
                 } disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 {format.label}
@@ -96,7 +96,7 @@ export function SettingsPanel({
         <div>
           <div className="flex items-center justify-between">
             <span className="label">Bitrate</span>
-            {lossless && <span className="text-[9.5px] text-moss/60">Not used for lossless</span>}
+            {lossless && <span className="text-[9.5px] text-sand/45">Not used for lossless</span>}
           </div>
           <div className="mt-2 grid grid-cols-4 gap-1.5">
             {BITRATE_OPTIONS.map((bitrate) => (
@@ -107,8 +107,8 @@ export function SettingsPanel({
                 onClick={() => onChange({ bitrate })}
                 className={`rounded-lg border px-1 py-1.5 text-[10.5px] font-bold transition ${
                   settings.bitrate === bitrate && !lossless
-                    ? 'border-moss bg-moss/12 text-moss'
-                    : 'border-sand/80 bg-white/55 text-forest/60 hover:border-moss/60'
+                    ? 'border-moss bg-moss/40 text-cream'
+                    : 'border-sand/15 bg-cream/5 text-sand/70 hover:border-moss/60'
                 } disabled:cursor-not-allowed disabled:opacity-40`}
               >
                 {bitrate.replace('k', '')}
@@ -140,19 +140,19 @@ export function SettingsPanel({
             </select>
             <ChevronDown
               size={14}
-              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-moss"
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sand/75"
             />
           </div>
         </div>
 
         <div>
           <span className="label">Save to</span>
-          <div className="mt-2 rounded-xl border border-sand/80 bg-white/50 p-2.5">
+          <div className="mt-2 rounded-xl border border-sand/15 bg-cream/5 p-2.5">
             <div className="flex items-center gap-2">
-              <FolderOpen size={14} className="shrink-0 text-moss" />
+              <FolderOpen size={14} className="shrink-0 text-sand/75" />
               <p
                 title={settings.outputDir}
-                className="min-w-0 flex-1 truncate text-[11px] text-forest/75"
+                className="min-w-0 flex-1 truncate text-[11px] text-sand/70"
               >
                 {settings.outputDir || 'Choose a folder…'}
               </p>
@@ -179,7 +179,7 @@ export function SettingsPanel({
           </div>
         </div>
 
-        <div className="h-px bg-sand/60" />
+        <div className="h-px bg-cream/10" />
 
         <ToggleRow
           label="Skip existing files"
@@ -201,13 +201,13 @@ export function SettingsPanel({
       <button
         type="button"
         onClick={onAdvanced}
-        className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-sand py-2 text-[11px] font-semibold text-moss transition hover:border-moss/60 hover:bg-sand/10"
+        className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-sand/20 py-2 text-[11px] font-semibold text-sand/75 transition hover:border-moss/60 hover:bg-cream/[0.04]"
       >
         <Settings2 size={13} />
         Advanced &amp; Spotify API
       </button>
 
-      <p className="mt-3 flex items-center justify-center gap-1 text-[9.5px] text-moss/60">
+      <p className="mt-3 flex items-center justify-center gap-1 text-[9.5px] text-sand/45">
         <AudioLines size={11} /> Powered by spotdl &amp; yt-dlp
       </p>
     </section>

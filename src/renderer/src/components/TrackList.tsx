@@ -31,11 +31,11 @@ const ACTIVE_STATES: TrackState[] = [
 function StateBadge({ song }: { song: TrackItem }): React.JSX.Element {
   switch (song.state) {
     case 'queued':
-      return <span className="text-[10.5px] font-semibold text-moss/70">Queued</span>
+      return <span className="text-[10.5px] font-semibold text-sand/55">Queued</span>
     case 'searching':
     case 'metadata':
       return (
-        <span className="inline-flex items-center gap-1 text-[10.5px] font-semibold text-moss">
+        <span className="inline-flex items-center gap-1 text-[10.5px] font-semibold text-sand/75">
           <Loader2 size={11} className="animate-spin" /> Matching
         </span>
       )
@@ -45,7 +45,7 @@ function StateBadge({ song }: { song: TrackItem }): React.JSX.Element {
           <span className="block text-[12px] font-extrabold tabular-nums text-clay">
             {Math.round(song.progress)}%
           </span>
-          <span className="block truncate text-[9.5px] font-medium text-moss/75">
+          <span className="block truncate text-[9.5px] font-medium text-sand/55">
             {formatSpeed(song.speed) ||
               (song.eta ? `${song.eta}s left` : 'Downloading')}
           </span>
@@ -59,13 +59,13 @@ function StateBadge({ song }: { song: TrackItem }): React.JSX.Element {
       )
     case 'done':
       return (
-        <span className="inline-flex items-center gap-1 text-[10.5px] font-bold text-moss">
+        <span className="inline-flex items-center gap-1 text-[10.5px] font-bold text-sand/75">
           <CheckCircle2 size={13} /> Done
         </span>
       )
     case 'skipped':
       return (
-        <span className="inline-flex items-center gap-1 text-[10.5px] font-bold text-moss/80">
+        <span className="inline-flex items-center gap-1 text-[10.5px] font-bold text-sand/60">
           <CheckCheck size={13} /> Saved
         </span>
       )
@@ -76,9 +76,9 @@ function StateBadge({ song }: { song: TrackItem }): React.JSX.Element {
         </span>
       )
     case 'cancelled':
-      return <span className="text-[10.5px] font-semibold text-moss/60">Stopped</span>
+      return <span className="text-[10.5px] font-semibold text-sand/45">Stopped</span>
     default:
-      return <span className="text-[10.5px] font-medium text-moss/35">Ready</span>
+      return <span className="text-[10.5px] font-medium text-sand/40">Ready</span>
   }
 }
 
@@ -95,13 +95,13 @@ export function TrackList({
 
   return (
     <section className="card animate-rise mt-4 overflow-hidden" style={{ animationDelay: '120ms' }}>
-      <div className="flex items-center gap-3 border-b border-sand/60 px-5 py-4">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-sand/45 text-forest/70">
+      <div className="flex items-center gap-3 border-b border-sand/15 px-5 py-4">
+        <div className="grid h-9 w-9 place-items-center rounded-xl bg-cream/8 text-sand/70">
           <ListMusic size={17} strokeWidth={2} />
         </div>
         <div>
           <h2 className="text-[14px] font-extrabold tracking-tight">Your queue</h2>
-          <p className="text-[11px] text-moss/80">
+          <p className="text-[11px] text-sand/60">
             {songs.length > 0
               ? `${songs.length} tracks · ${formatDuration(totalDuration)} selected`
               : 'Resolved tracks will show up here'}
@@ -113,7 +113,7 @@ export function TrackList({
             type="button"
             onClick={() => onSelectAll(!allSelected)}
             disabled={active}
-            className="ml-auto flex items-center gap-2 rounded-full px-2 py-1 text-[11px] font-semibold text-moss transition hover:text-forest disabled:opacity-40"
+            className="ml-auto flex items-center gap-2 rounded-full px-2 py-1 text-[11px] font-semibold text-sand/75 transition hover:text-cream disabled:opacity-40"
           >
             <span className={`check ${allSelected ? 'check-on' : ''}`}>
               {allSelected && <Check size={11} strokeWidth={3} />}
@@ -124,15 +124,15 @@ export function TrackList({
       </div>
 
       {collections.length > 0 && (
-        <div className="flex gap-2 overflow-x-auto border-b border-sand/45 px-5 py-2.5">
+        <div className="flex gap-2 overflow-x-auto border-b border-sand/15 px-5 py-2.5">
           {collections.map((collection) => (
             <span
               key={collection.url}
               title={collection.error ?? collection.url}
               className={`flex shrink-0 items-center gap-2 rounded-xl border px-2.5 py-1.5 text-[10.5px] font-semibold ${
                 collection.error
-                  ? 'border-clay/25 bg-clay/8 text-clay'
-                  : 'border-sand/70 bg-white/55 text-forest/75'
+                  ? 'border-clay/25 bg-clay/15 text-clay'
+                  : 'border-sand/15 bg-cream/5 text-sand/70'
               }`}
             >
               {collection.error ? (
@@ -144,7 +144,7 @@ export function TrackList({
               )}
               <span className="max-w-[190px] truncate">{collection.name}</span>
               {!collection.error && (
-                <span className="rounded-full bg-sand/55 px-1.5 py-0.5 text-[9px] font-bold text-forest/60">
+                <span className="rounded-full bg-cream/12 px-1.5 py-0.5 text-[9px] font-bold text-sand/70">
                   {collection.count}
                 </span>
               )}
@@ -155,11 +155,11 @@ export function TrackList({
 
       {songs.length === 0 ? (
         <div className="px-6 py-14 text-center">
-          <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-sand/40 text-moss">
+          <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-cream/8 text-sand/75">
             <Disc3 size={30} strokeWidth={1.6} />
           </div>
           <p className="mt-4 text-[15px] font-bold">Nothing here yet</p>
-          <p className="mx-auto mt-1 max-w-[320px] text-[12px] leading-relaxed text-moss/85">
+          <p className="mx-auto mt-1 max-w-[320px] text-[12px] leading-relaxed text-sand/60">
             Paste a link above and hit <span className="font-semibold">Resolve</span>. Choose the
             tracks you want, then download them.
           </p>
@@ -190,7 +190,7 @@ export function TrackList({
                     onToggle(song.url)
                   }
                 }}
-                className={`track-row flex items-center gap-3 border-b border-sand/30 px-5 py-2.5 outline-none last:border-b-0 focus-visible:bg-sand/20 ${
+                className={`track-row flex items-center gap-3 border-b border-sand/15 px-5 py-2.5 outline-none last:border-b-0 focus-visible:bg-cream/10 ${
                   song.selected ? 'is-selected' : ''
                 } ${isActive ? 'is-active' : ''} ${active ? 'cursor-default' : 'cursor-pointer'}`}
                 style={{ animationDelay: `${Math.min(index, 12) * 18}ms` }}
@@ -207,18 +207,18 @@ export function TrackList({
                       {song.title}
                     </p>
                     {song.explicit && (
-                      <span className="shrink-0 rounded bg-sand/70 px-1 text-[8.5px] font-black text-forest/70">
+                      <span className="shrink-0 rounded bg-cream/15 px-1 text-[8.5px] font-black text-sand/70">
                         E
                       </span>
                     )}
-                    <span className="ml-auto shrink-0 text-[10.5px] tabular-nums text-moss/70">
+                    <span className="ml-auto shrink-0 text-[10.5px] tabular-nums text-sand/55">
                       {formatDuration(song.duration)}
                     </span>
                   </div>
 
-                  <p className="truncate text-[11.5px] text-moss">
+                  <p className="truncate text-[11.5px] text-sand/75">
                     {song.artists.join(', ')}
-                    {song.album ? <span className="text-moss/65"> · {song.album}</span> : null}
+                    {song.album ? <span className="text-sand/45"> · {song.album}</span> : null}
                   </p>
 
                   {isActive && (
@@ -229,7 +229,7 @@ export function TrackList({
                           style={{ width: `${song.state === 'queued' ? 0 : song.progress}%` }}
                         />
                       </div>
-                      <span className="shrink-0 text-[9.5px] font-semibold text-moss/75">
+                      <span className="shrink-0 text-[9.5px] font-semibold text-sand/55">
                         {song.state === 'downloading'
                           ? formatSpeed(song.speed) ||
                             (song.eta ? `${song.eta}s left` : 'Downloading')

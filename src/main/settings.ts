@@ -76,7 +76,7 @@ export function saveSettings(patch: Partial<AppSettings>): AppSettings {
     fs.mkdirSync(path.dirname(file), { recursive: true })
     fs.writeFileSync(file, JSON.stringify(next, null, 2), 'utf8')
   } catch {
-    // Settings are nice-to-have; never let a write failure break a download.
+    // A failed save shouldn't stop anything else.
   }
   return next
 }

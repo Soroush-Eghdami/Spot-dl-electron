@@ -2,17 +2,14 @@
 """
 SpotifyDL backend.
 
-A small JSON-lines bridge around the `spotdl` library. Electron spawns this
-process once and talks to it over stdin/stdout. Every line on stdout is a JSON
-object; every line on stdin is a JSON command.
+Tiny JSON-lines bridge around `spotdl`. Electron starts it once and sends
+commands over stdin; the backend answers on stdout.
 
-Commands
---------
-{"id": "1", "cmd": "ping"}
-{"id": "2", "cmd": "resolve", "urls": [...], "spotify": {...}}
-{"id": "3", "cmd": "download", "urls": [...], "options": {...}, "spotify": {...}}
-{"id": "4", "cmd": "cancel"}
-{"id": "5", "cmd": "shutdown"}
+    {"id": "1", "cmd": "ping"}
+    {"id": "2", "cmd": "resolve", "urls": [...], "spotify": {...}}
+    {"id": "3", "cmd": "download", "urls": [...], "options": {...}, "spotify": {...}}
+    {"id": "4", "cmd": "cancel"}
+    {"id": "5", "cmd": "shutdown"}
 """
 
 from __future__ import annotations
@@ -35,13 +32,13 @@ _PROTOCOL_OUT = None
 
 
 # --------------------------------------------------------------------------
-# Protocol plumbing
+# Protocol
 # --------------------------------------------------------------------------
 def setup_protocol() -> None:
     global _PROTOCOL_OUT
 
-    # Keep the original stdout for protocol messages, then point sys.stdout at
-    # stderr so libraries (yt-dlp, spotdl, rich, ...) can never corrupt it.
+    # Keep the real stdout for ourselves and send library output to stderr,
+    # so nothing can corrupt the protocol stream.
     try:
         fd = os.dup(sys.stdout.fileno())
         _PROTOCOL_OUT = os.fdopen(fd, "w", encoding="utf-8", buffering=1, newline="\n")
@@ -71,13 +68,12 @@ def emit(payload: Dict[str, Any]) -> None:
 
 
 # --------------------------------------------------------------------------
-# Compatibility patches
+# spotdl patches
 # --------------------------------------------------------------------------
 def install_network_timeouts() -> None:
     """
-    The free Spotify client (spotapi) does not pass a timeout to curl. A single
-    stalled CDN request can therefore hang forever. Give every request a sane
-    timeout so the client's own retry logic can kick in.
+    The free spotapi client never sets a request timeout, so one stuck CDN
+    call can hang forever. Add a timeout and let its retries do the rest.
     """
     try:
         import spotapi.http.request as spotapi_request
@@ -100,9 +96,8 @@ def install_network_timeouts() -> None:
 
 def install_hash_cache() -> None:
     """
-    spotapi downloads ~75 web-player JS chunks to discover the GraphQL query
-    hashes. It does that for *every* client instance, which makes playlist
-    resolution painfully slow. Cache the result process-wide.
+    spotapi downloads ~75 JS chunks to find GraphQL hashes, and it does this
+    for every new client. Remember the result once per process instead.
     """
     try:
         from spotapi.client import BaseClient
@@ -135,7 +130,7 @@ def install_hash_cache() -> None:
 
 def install_progress_tracker() -> None:
     """
-    Replace spotdl's rich tracker with a quiet variant that reports real byte
+    Swap spotdl's fancy TUI tracker for a quiet one that reports byte
     progress, speed and ETA to our callback.
     """
     try:
@@ -176,10 +171,10 @@ def install_progress_tracker() -> None:
 
 
 # --------------------------------------------------------------------------
-# Small helpers
+# Helpers
 # --------------------------------------------------------------------------
 class DownloadCancelled(Exception):
-    """Raised from the progress callback to abort the active track."""
+    """Thrown from the progress callback to stop the current track."""
 
 
 def spotdl_version() -> str:
@@ -337,8 +332,8 @@ class Engine:
             if self._client is not None and self._spotify_key == key and not reset:
                 client = self._client
             else:
-                # spotdl keeps a process-wide Spotify client, so changing
-                # credentials requires a fresh instance.
+                # spotdl keeps one client per process, so new credentials
+                # mean we have to start fresh.
                 try:
                     SpotifyClient._instance = None  # type: ignore[attr-defined]
                 except Exception:
@@ -755,8 +750,7 @@ class Engine:
 # Entry point
 # --------------------------------------------------------------------------
 def read_stdin_lines():
-    # Use the raw binary buffer so unusual filenames / metadata cannot break
-    # decoding, and always read UTF-8.
+    # Read the raw stream as UTF-8 so odd filenames can't break decoding.
     stream = sys.stdin
     if stream is None:
         return

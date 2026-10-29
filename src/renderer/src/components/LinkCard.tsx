@@ -25,18 +25,18 @@ export function LinkCard({
   return (
     <section className="card animate-rise p-5" style={{ animationDelay: '60ms' }}>
       <div className="flex items-center gap-2.5">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-moss/12 text-moss">
+        <div className="grid h-9 w-9 place-items-center rounded-xl bg-moss/30 text-sand/75">
           <Link2 size={17} strokeWidth={2} />
         </div>
         <div>
           <h2 className="text-[14px] font-extrabold tracking-tight">Paste your Spotify links</h2>
-          <p className="text-[11px] text-moss/80">
+          <p className="text-[11px] text-sand/60">
             Tracks, albums, playlists or artists — one per line.
           </p>
         </div>
 
         {detected > 0 && (
-          <span className="ml-auto rounded-full bg-moss/10 px-2.5 py-1 text-[10.5px] font-bold text-moss">
+          <span className="ml-auto rounded-full bg-moss/25 px-2.5 py-1 text-[10.5px] font-bold text-sand/75">
             {detected} {detected === 1 ? 'link' : 'links'}
           </span>
         )}
@@ -86,7 +86,7 @@ export function LinkCard({
 
         <span
           className={`ml-auto text-[11px] font-medium ${
-            resolving ? 'text-clay' : 'text-moss/80'
+            resolving ? 'text-clay' : 'text-sand/60'
           }`}
         >
           {message || 'Tip: Ctrl + Enter to resolve'}

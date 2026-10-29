@@ -35,7 +35,7 @@ export function DownloadCard({
             <p className="label">Ready to save</p>
             <p className="mt-1 font-display text-[28px] font-black leading-none">
               {selectedCount}
-              <span className="ml-1.5 text-[12px] font-semibold text-moss">
+              <span className="ml-1.5 text-[12px] font-semibold text-sand/75">
                 {selectedCount === 1 ? 'track' : 'tracks'}
               </span>
             </p>
@@ -43,17 +43,17 @@ export function DownloadCard({
           <div className="text-right">
             <span className="chip">{formatLabel}</span>
             {selectedCount > 0 && (
-              <p className="mt-1 text-[10.5px] font-medium text-moss/75">≈ {durationLabel}</p>
+              <p className="mt-1 text-[10.5px] font-medium text-sand/55">≈ {durationLabel}</p>
             )}
           </div>
         </div>
 
         <div className="mt-4">
           <div className="flex items-center justify-between text-[10.5px] font-semibold">
-            <span className="text-moss">
+            <span className="text-sand/75">
               {download.active ? 'Downloading' : download.result ? 'Finished' : 'Progress'}
             </span>
-            <span className="tabular-nums text-forest">{percent}%</span>
+            <span className="tabular-nums text-cream">{percent}%</span>
           </div>
           <div className={`bar mt-1.5 ${download.active ? 'sheen' : ''}`}>
             <span className="bar-fill" style={{ width: `${percent}%` }} />
@@ -61,7 +61,7 @@ export function DownloadCard({
         </div>
 
         {!ffmpegOk && (
-          <div className="mt-3 flex items-start gap-2 rounded-xl border border-clay/25 bg-clay/8 px-3 py-2">
+          <div className="mt-3 flex items-start gap-2 rounded-xl border border-clay/25 bg-clay/15 px-3 py-2">
             <TriangleAlert size={13} className="mt-0.5 shrink-0 text-clay" />
             <p className="text-[10.5px] leading-snug text-clay">
               ffmpeg is missing. Conversions will fail — install ffmpeg and restart the app.
@@ -73,7 +73,9 @@ export function DownloadCard({
           type="button"
           onClick={onDownload}
           disabled={selectedCount === 0 || download.active}
-          className="btn btn-clay mt-4 w-full py-3.5 text-[13.5px]"
+          className={`btn btn-clay mt-4 w-full py-3.5 text-[13.5px] ${
+            download.active ? 'opacity-100' : ''
+          }`}
         >
           {download.active ? (
             <>
@@ -109,10 +111,10 @@ export function DownloadCard({
           </button>
         )}
 
-        {download.status && (
+        {download.status && !download.active && (
           <p
             className={`mt-3 text-center text-[10.5px] leading-snug ${
-              download.error ? 'text-clay' : 'text-moss'
+              download.error ? 'text-clay' : 'text-sand/75'
             }`}
           >
             {download.status}
@@ -120,8 +122,8 @@ export function DownloadCard({
         )}
       </div>
 
-      <div className="border-t border-sand/60 bg-sand/15 px-5 py-2.5">
-        <p className="flex items-center justify-center gap-1.5 text-[9.5px] font-medium text-moss/75">
+      <div className="border-t border-sand/15 bg-cream/[0.04] px-5 py-2.5">
+        <p className="flex items-center justify-center gap-1.5 text-[9.5px] font-medium text-sand/55">
           <ShieldCheck size={12} /> Your downloads stay on this PC.
         </p>
       </div>

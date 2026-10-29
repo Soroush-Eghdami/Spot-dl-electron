@@ -254,11 +254,14 @@ export const useStore = create<Store>((set) => ({
             cancelled: Boolean(event.cancelled)
           }
           const songs = state.songs.map((song) => {
-            if (!song.selected) return song
-            if (result.cancelled && !isFinalState(song.state)) {
+            if (!song.selected || isFinalState(song.state)) return song
+            if (result.cancelled) {
               return { ...song, state: 'cancelled' as TrackState, message: 'Stopped' }
             }
-            return song
+            // Safety net: if a track event got lost, don't leave rows spinning.
+            return result.failed === 0
+              ? { ...song, state: 'done' as TrackState, progress: 100, message: 'Done' }
+              : { ...song, state: 'error' as TrackState, error: 'Did not finish.' }
           })
           const processed = result.ok + result.skipped + result.failed
           return {

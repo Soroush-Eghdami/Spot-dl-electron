@@ -17,10 +17,13 @@ export function CoverArt({ src, alt = '', size = 44, className = '' }: Props): R
       style={{ width: size, height: size }}
       aria-hidden={!alt}
     >
-      {src && !broken ? (
+      <Music2
+        size={Math.max(14, Math.round(size * 0.38))}
+        strokeWidth={1.7}
+        className="cover-fallback"
+      />
+      {src && !broken && (
         <img src={src} alt={alt} loading="lazy" onError={() => setBroken(true)} />
-      ) : (
-        <Music2 size={Math.max(14, Math.round(size * 0.38))} strokeWidth={1.7} />
       )}
     </div>
   )

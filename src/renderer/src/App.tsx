@@ -37,7 +37,7 @@ export default function App(): React.JSX.Element {
         useStore.getState().setSettings(loaded)
         useStore.getState().set({ appVersion: version })
       } catch {
-        // Settings are optional; the app still works with defaults.
+        // Defaults are fine if settings won't load.
       }
 
       try {
@@ -66,7 +66,7 @@ export default function App(): React.JSX.Element {
       const saved = await window.api.saveSettings(patch)
       useStore.getState().setSettings(saved)
     } catch {
-      // Keep the optimistic value if writing the settings file failed.
+      // Keep the new value even if saving failed.
     }
   }
 
@@ -203,7 +203,7 @@ export default function App(): React.JSX.Element {
         <Hero engine={state.engine} onOpenAdvanced={() => state.set({ advancedOpen: true })} />
 
         {state.engine.status === 'error' && (
-          <div className="mt-3 flex items-center gap-3 rounded-2xl border border-clay/25 bg-clay/8 px-4 py-2.5 text-[11.5px] text-clay">
+          <div className="mt-3 flex items-center gap-3 rounded-2xl border border-clay/25 bg-clay/15 px-4 py-2.5 text-[11.5px] text-clay">
             <TriangleAlert size={15} className="shrink-0" />
             <p className="min-w-0 flex-1 truncate">
               Download engine offline — {state.engine.message}
@@ -238,13 +238,24 @@ export default function App(): React.JSX.Element {
               onSelectAll={state.setAllSelected}
             />
 
-            <p className="mt-4 px-3 text-center text-[9.5px] leading-relaxed text-moss/60">
+            <p className="mt-4 px-3 text-center text-[9.5px] leading-relaxed text-sand/45">
               For music you own or have permission to download. Please respect Spotify&apos;s terms
               and copyright law.
             </p>
           </div>
 
           <aside className="space-y-4 lg:sticky lg:top-6">
+            <DownloadCard
+              selectedCount={selectedSongs.length}
+              totalDuration={totalDuration}
+              download={state.download}
+              ffmpegOk={ffmpegOk}
+              formatLabel={settings.format.toUpperCase()}
+              onDownload={handleDownload}
+              onCancel={handleCancel}
+              onOpenFolder={handleOpenFolder}
+            />
+
             <SettingsPanel
               settings={settings}
               disabled={state.download.active}
@@ -255,17 +266,6 @@ export default function App(): React.JSX.Element {
               }}
               onOpenFolder={handleOpenFolder}
               onAdvanced={() => state.set({ advancedOpen: true })}
-            />
-
-            <DownloadCard
-              selectedCount={selectedSongs.length}
-              totalDuration={totalDuration}
-              download={state.download}
-              ffmpegOk={ffmpegOk}
-              formatLabel={settings.format.toUpperCase()}
-              onDownload={handleDownload}
-              onCancel={handleCancel}
-              onOpenFolder={handleOpenFolder}
             />
           </aside>
         </div>

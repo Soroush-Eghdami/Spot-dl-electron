@@ -9,7 +9,7 @@ interface Props {
 export function Hero({ engine, onOpenAdvanced }: Props): React.JSX.Element {
   const ready = engine.status === 'ready'
   const failed = engine.status === 'error'
-  const dot = failed ? 'bg-clay' : ready ? 'bg-[#9db183]' : 'bg-sand pulse-dot'
+  const dot = failed ? 'bg-clay' : ready ? 'bg-moss' : 'bg-sand pulse-dot'
 
   const detail = engine.info
     ? `spotdl ${engine.info.spotdl} · yt-dlp ${engine.info.ytdlp ?? 'n/a'} · ffmpeg ${
@@ -39,7 +39,7 @@ export function Hero({ engine, onOpenAdvanced }: Props): React.JSX.Element {
 
         <div className="ml-auto flex items-center gap-2">
           <div
-            className="flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-[11px] font-semibold text-cream/85 backdrop-blur"
+            className="flex items-center gap-2 rounded-full border border-cream/15 bg-cream/5 px-3 py-1.5 text-[11px] font-semibold text-cream/85 backdrop-blur"
             title={detail}
           >
             <span className={`h-2 w-2 rounded-full ${dot}`} />
@@ -52,7 +52,7 @@ export function Hero({ engine, onOpenAdvanced }: Props): React.JSX.Element {
           <button
             type="button"
             onClick={onOpenAdvanced}
-            className="flex items-center gap-1.5 rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-[11px] font-semibold text-cream/85 transition hover:bg-white/15"
+            className="flex items-center gap-1.5 rounded-full border border-cream/15 bg-cream/5 px-3 py-1.5 text-[11px] font-semibold text-cream/85 transition hover:bg-cream/15/15"
             title="Advanced settings"
           >
             <Settings2 size={13} />
