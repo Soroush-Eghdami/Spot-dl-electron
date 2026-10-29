@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+out/
+release/
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+backend/build/
+backend/dist/
+
+# Logs & local data
+*.log
+logs/
+.env
+.env.local
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Packaged artifacts
+*.exe
+!build/icon.ico

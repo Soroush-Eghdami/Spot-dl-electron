@@ -1,0 +1,2 @@
+# Build dependencies (only needed when producing the standalone backend).
+pyinstaller==6.22.3
