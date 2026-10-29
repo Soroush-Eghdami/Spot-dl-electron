@@ -94,10 +94,6 @@ Open **Advanced & Spotify API** in the sidebar to enter your own Spotify Develop
 3. Backend patches `spotapi` with request timeouts and caches GraphQL hashes process-wide.
 4. Custom `BridgedSongTracker` feeds real byte progress, speed and ETA to the UI.
 
-## License
-
-MIT — see [LICENSE](LICENSE).
-
 ## Credits
 
 - [spotdl](https://github.com/spotDL/spotify-downloader) — the engine
