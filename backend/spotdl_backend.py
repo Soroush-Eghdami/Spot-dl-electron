@@ -181,7 +181,25 @@ def spotdl_version() -> str:
     try:
         return package_version("spotdl")
     except Exception:
-        return "unknown"
+        # Frozen builds have no package metadata.
+        try:
+            import spotdl
+
+            return getattr(spotdl, "__version__", "bundled")
+        except Exception:
+            return "unknown"
+
+
+def ytdlp_version() -> Optional[str]:
+    try:
+        return package_version("yt-dlp")
+    except Exception:
+        try:
+            from yt_dlp.version import __version__
+
+            return __version__
+        except Exception:
+            return None
 
 
 def ffmpeg_info() -> Dict[str, Any]:
@@ -375,16 +393,12 @@ class Engine:
 
     # -- commands ----------------------------------------------------------
     def ping(self) -> Dict[str, Any]:
-        info = {
+        return {
             "spotdl": spotdl_version(),
+            "ytdlp": ytdlp_version(),
             "python": sys.version.split()[0],
             "ffmpeg": ffmpeg_info(),
         }
-        try:
-            info["ytdlp"] = package_version("yt-dlp")
-        except Exception:
-            info["ytdlp"] = None
-        return info
 
     def resolve(self, msg: Dict[str, Any]) -> None:
         request_id = msg.get("id")
